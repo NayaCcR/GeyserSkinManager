@@ -2,8 +2,6 @@ package com.github.camotoy.geyserskinmanager.common.platform;
 
 import com.github.camotoy.geyserskinmanager.common.*;
 import com.github.camotoy.geyserskinmanager.common.skinretriever.BedrockSkinRetriever;
-import org.geysermc.geyser.util.MathUtils;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -141,7 +139,9 @@ public abstract class BedrockSkinUtilityListener<T> implements PlatformPlayerUui
                     out.writeInt(i); // chunk index
 
                     offset = i * (getPluginMessageDataLimit() - headerSize - out.size());
-                    currentSkinData = new byte[(int) MathUtils.constrain(skin.data.length - offset, 0, getPluginMessageDataLimit() - headerSize - out.size())];
+                    int remaining = skin.data.length - offset;
+                    int payloadLimit = getPluginMessageDataLimit() - headerSize - out.size();
+                    currentSkinData = new byte[Math.max(0, Math.min(remaining, payloadLimit))];
 
                     try (InputStream stream = new ByteArrayInputStream(skin.data)) {
                         //noinspection ResultOfMethodCallIgnored

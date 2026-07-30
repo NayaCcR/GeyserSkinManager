@@ -7,13 +7,14 @@
     <parent>
         <artifactId>GeyserSkinManager</artifactId>
         <groupId>com.github.camotoy.geyserskinmanager</groupId>
-        <version>1.8</version>
+        <version>1.9</version>
     </parent>
 
     <name>GeyserSkinManager-Spigot</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <!-- Keep the plugin bytecode loadable across every supported Paper/Purpur release. -->
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -25,16 +26,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>${maven.shade.plugin.version}</version>
                 <configuration>
                     <relocations>
                         <relocation>
@@ -42,8 +42,12 @@
                             <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.jackson</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.paperlib</shadedPattern>
+                            <pattern>com.google.common</pattern>
+                            <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.guava</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.gson</pattern>
+                            <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.gson</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -70,8 +74,8 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -91,22 +95,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
+            <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- For Spigot skin changing -->
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>3.11.50</version>
+            <!-- 1.20 is the compatibility baseline; the APIs used here remain binary-compatible on 26.2. -->
+            <version>${paper.api.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

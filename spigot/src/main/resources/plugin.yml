@@ -1,6 +1,6 @@
 name: GeyserSkinManager
 version: ${project.version}
 main: com.github.camotoy.geyserskinmanager.spigot.GeyserSkinManager
-api-version: 1.13
+api-version: '1.20'
 softdepend: [Geyser-Spigot]
 authors: [Camotoy]

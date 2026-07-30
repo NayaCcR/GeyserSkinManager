@@ -6,8 +6,6 @@ import com.github.camotoy.geyserskinmanager.common.FloodgateUtil;
 import com.github.camotoy.geyserskinmanager.spigot.listener.BungeecordPluginMessageListener;
 import com.github.camotoy.geyserskinmanager.spigot.listener.SpigotPlatformEventListener;
 import com.github.camotoy.geyserskinmanager.spigot.listener.PaperEventListener;
-import com.github.camotoy.geyserskinmanager.spigot.listener.SpigotEventListener;
-import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,11 +19,7 @@ public final class GeyserSkinManager extends JavaPlugin {
         boolean bungeeCordMode = Bukkit.getPluginManager().getPlugin("Geyser-Spigot") == null;
 
         if (!bungeeCordMode) {
-            if (PaperLib.isPaper() && PaperLib.isVersion(12, 2)) {
-                this.listener = new PaperEventListener(this, !floodgatePresent);
-            } else {
-                this.listener = new SpigotEventListener(this, !floodgatePresent);
-            }
+            this.listener = new PaperEventListener(this, !floodgatePresent);
 
             Bukkit.getPluginManager().registerEvents(listener, this);
             Bukkit.getMessenger().registerOutgoingPluginChannel(this, Constants.MOD_PLUGIN_MESSAGE_NAME);

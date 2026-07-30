@@ -7,7 +7,7 @@
     <parent>
         <artifactId>GeyserSkinManager</artifactId>
         <groupId>com.github.camotoy.geyserskinmanager</groupId>
-        <version>1.8</version>
+        <version>1.9</version>
     </parent>
     <artifactId>bungeecord</artifactId>
     <packaging>jar</packaging>
@@ -15,7 +15,7 @@
     <name>GeyserSkinManager-BungeeCord</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -26,21 +26,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>${maven.shade.plugin.version}</version>
                 <configuration>
                     <relocations>
                         <relocation>
                             <pattern>com.fasterxml.jackson</pattern>
                             <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.jackson</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.common</pattern>
+                            <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.guava</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.gson</pattern>
+                            <shadedPattern>com.github.camotoy.geyserskinmanager.relocations.gson</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -65,18 +72,11 @@
         </resources>
     </build>
 
-    <repositories>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>1.20-R0.1-SNAPSHOT</version>
+            <version>1.21-R0.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
